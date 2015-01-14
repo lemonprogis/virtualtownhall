@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Virtual Town Hall</title>
+</head>
+<body>
+	<div id="townhall">
+		{% if polls %}
+			{% for poll in polls %}
+				<h3>{{ poll.question }}</h3>
+				{% include 'form_template.html' %}
+			{% endfor %}
+		{% endif %}
+	</div>
+	<div id="thanks"></div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		var d;
+		var ok = false;
+
+		$('.response-form').submit(function(event){
+			event.preventDefault();
+			d = $(this).serializeArray();
+			$.ajax({
+				url:'/townhall/answer/',
+				type:'POST',
+				data: $(this).serializeArray(),
+				success: function(json){
+					$('#thanks').html("<h4>" + json.response + "</h4>");
+					console.log(json);
+            		console.log("success"); 
+				},
+				error: function(xhr,errmsg,err){
+					$('#thanks').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg); // add the error to the dom
+            		console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+				}
+			});
+			
+			$(this).fadeOut();
+		});
+	</script>
+</body>
+</html>
