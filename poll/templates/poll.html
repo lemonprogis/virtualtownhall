@@ -15,12 +15,10 @@
 	<div id="thanks"></div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script type="text/javascript">
-		var d;
-		var ok = false;
 
 		$('.response-form').submit(function(event){
 			event.preventDefault();
-			d = $(this).serializeArray();
+			
 			$.ajax({
 				url:'/townhall/answer/',
 				type:'POST',
